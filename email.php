@@ -75,7 +75,7 @@ require 'vendor/phpmailer/phpmailer/src/Exception.php';
 require 'vendor/phpmailer/phpmailer/src/SMTP.php';
 
 // Start session
-
+// session_start();
 
 // Check for reCAPTCHA response
 // if (isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response'])) {
@@ -92,12 +92,16 @@ require 'vendor/phpmailer/phpmailer/src/SMTP.php';
     $mail->Host = "mail.dietwithright.com";
     $mail->Port = 465;
     $mail->IsHTML(true);
+    $mail->Username = 'info@dietwithright.com';
+    $mail->Password = '+UD+WTg,5Y7x'; 
     $mail->setFrom('info@dietwithright.com', 'Diet With Right');
 
     // Add recipients
     // $mail->addBCC('sanjaresolutions@gmail.com', 'sanjaresolutions');
     // $mail->addBCC('mirzafaizan1931@gmail.com', 'Faizan Mirza');
 
+    $mail->addBCC(' dietwithright25@gmail.com', 'Diet With Right');
+    $mail->addAddress('info@dietwithright.com', 'Diet With Right');
     // $mail->addAddress(' supritdagade77@gmail.com', 'suprit');
     // $mail->Subject = 'Contact form submitted data.';
 
@@ -108,7 +112,6 @@ require 'vendor/phpmailer/phpmailer/src/SMTP.php';
     $email = ($_POST['email'] != '') ? $_POST['email'] : '';
     $phone = ($_POST['phone'] != '') ? $_POST['phone'] : '';
     $message = $_POST['message'] ?? '';
-    $form = $_POST['form'];
     $subject = $_POST['subject'] ?? 'No Subject';
 
     $mail->Subject = "Contact form submission: " . $subject;
@@ -152,28 +155,26 @@ require 'vendor/phpmailer/phpmailer/src/SMTP.php';
     $mail->msgHTML($html);
     $mail->AltBody = 'This is a plain-text message body';
 
-    // Send the email
     if (!$mail->send()) {
-      echo "
+        echo "
             <script type=\"text/javascript\">
-            swal(
-				'Success',
-        	'Your mail has not been sent <b style=color:red>Failed</b> ',
-				'success'
-			);
+                swal(
+                    'Error',
+                    'Your email could not be sent. Please try again later.',
+                    'error'
+                );
             </script>
         ";
     } else {
-
-      echo "
+        echo "
             <script type=\"text/javascript\">
-    swal(
-        'Success',
-        	'Your mail has been sent <b style=color:green>Successfully</b> ',
-        'success'
-    );
-    </script>
-";
+                swal(
+                    'Success',
+                    'Your email has been sent successfully!',
+                    'success'
+                );
+            </script>
+        ";
     }
 ?>
 
